@@ -11,16 +11,17 @@ use TAD\TADCollection;
  */
 class TADManager
 {
+    const DEFAULT_INPUT_TYPE = 'json';
     private $tk = '';
     private $pl = [];
     private $hh = '';
     private $ay_input = [];
     private $instance_default_input_type;
     private $collection;
-    const DEFAULT_INPUT_TYPE = 'json';
+    private $json_var = "";
 
-    public static function test() {
-        print 'test';
+    public function set_json_input_var($json) {
+        $this->json_var = $json;
     }
 
     /**
@@ -49,9 +50,16 @@ class TADManager
             case 'json':
                 $this->ay_input = $this->parse_json($this->parse_phpinput());
                 break;
+            case 'json_var':
+                $this->ay_input = $this->parse_json($this->json_var);
+                break;
             case 'post':
                 $post_data = isset($_POST) ? $_POST : [];
-                $ay_input = $this->parse_post($post_data);
+                $this->ay_input = $this->parse_post($post_data);
+                break;
+            case 'post_var':
+                $post_data = isset($_POST) ? $_POST : [];
+                $this->ay_input = $this->parse_post($post_data);
                 break;
             default:
                 // code...
