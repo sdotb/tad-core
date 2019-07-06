@@ -1,0 +1,21 @@
+{
+    "name": "sdotbertoli/tad-core",
+    "description": "TAD Backend implementation",
+    "type": "library",
+    "license": "AGPL",
+    "authors": [
+        {
+            "name": "Stefano Bertoli",
+            "email": "s.bertoli@ictec.it"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=7.1.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "TAD": "src/"
+        }
+    }
+}
