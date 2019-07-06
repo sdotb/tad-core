@@ -2,7 +2,7 @@
     "name": "sdotbertoli/tad-core",
     "description": "TAD Backend implementation",
     "type": "library",
-    "license": "AGPL",
+    "license": "AGPL-3.0-or-later",
     "authors": [
         {
             "name": "Stefano Bertoli",
