@@ -1,7 +1,7 @@
 <?php
 namespace TAD;
 
-use Libs\Utils;
+use TAD\Utils;
 use TAD\TAD;
 
 /**
