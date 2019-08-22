@@ -1,5 +1,5 @@
 <?php
-namespace TAD;
+namespace sdotbertoli\TAD;
 
 /**
  * Single TAD unit class

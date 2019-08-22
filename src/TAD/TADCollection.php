@@ -1,8 +1,8 @@
 <?php
-namespace TAD;
+namespace sdotbertoli\TAD;
 
-use TAD\Utils;
-use TAD\TAD;
+use sdotbertoli\Utils\Utils;
+use sdotbertoli\TAD\TAD;
 
 /**
  * Classe TADCollection

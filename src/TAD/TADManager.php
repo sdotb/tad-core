@@ -1,7 +1,8 @@
 <?php
-namespace TAD;
+namespace sdotbertoli\TAD;
 
-use TAD\TADCollection;
+use sdotbertoli\TAD\TADCollection;
+use sdotbertoli\TAD\TAD;
 
 /**
  * Classe TADManager, si occupa di parsare stringhe in ingresso e convertirle in una TADCollection

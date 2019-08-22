@@ -4,8 +4,45 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5dd087b6ff11fd1374e5caca2e0534e4",
-    "packages": [],
+    "content-hash": "478a60d307a14eb756ed4f6494ffe474",
+    "packages": [
+        {
+            "name": "sdotbertoli/utils",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sdotbertoli/utils.git",
+                "reference": "d8dbf988525277f63134c16800d5e1ae92d83879"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sdotbertoli/utils/zipball/d8dbf988525277f63134c16800d5e1ae92d83879",
+                "reference": "d8dbf988525277f63134c16800d5e1ae92d83879",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "sdotbertoli\\Utils\\": "src/utils"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "mit"
+            ],
+            "authors": [
+                {
+                    "name": "Stefano Bertoli",
+                    "email": "s.bertoli@ictec.it"
+                }
+            ],
+            "description": "Utils for projects",
+            "time": "2019-08-22T23:37:03+00:00"
+        }
+    ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "dev",

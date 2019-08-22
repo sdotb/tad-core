@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/../vendor/autoload.php'; // Autoload files using Composer
 
-use TAD\TADManager;
+use sdotbertoli\TAD\TADManager;
 
 try {
     $tman = new TADManager;
@@ -30,7 +30,7 @@ try {
     $tman->parse_input('json_var');
     print json_encode($tman->export_collection());
 
-} catch (\Throwable $th) {
-    print $th->get_message();
+} catch (\Exception $e) {
+    print $e->get_message();
 }
 
