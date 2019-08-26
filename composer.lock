@@ -31,7 +31,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "mit"
+                "MIT"
             ],
             "authors": [
                 {
@@ -40,7 +40,7 @@
                 }
             ],
             "description": "Utils for projects",
-            "time": "2019-08-26T11:13:39+00:00"
+            "time": "2019-08-26T11:31:32+00:00"
         }
     ],
     "packages-dev": [],
