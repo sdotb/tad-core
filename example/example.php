@@ -2,11 +2,11 @@
 
 require_once __DIR__ . '/../vendor/autoload.php'; // Autoload files using Composer
 
-use sdotbertoli\TAD\TADManager;
+use TADCore\TADManager;
 
 try {
     $tman = new TADManager;
-    $tman->set_json_input_var('{
+    $tman->setInputDataJson('{
         "tk": "qazwsx",
         "pl": [{
             "a": "action",
@@ -27,10 +27,10 @@ try {
     }
     ');
 
-    $tman->parse_input('json_var');
-    print json_encode($tman->export_collection());
+    $tman->parseInput('json');
+    print json_encode($tman->exportCollection());
 
 } catch (\Exception $e) {
-    print $e->get_message();
+    print $e->getMessage();
 }
 
