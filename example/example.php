@@ -6,7 +6,8 @@ use TADCore\TADManager;
 
 try {
     $tman = new TADManager;
-    $tman->setInputDataJson('{
+    $tman->setInputDataJson('
+    {
         "tk": "qazwsx",
         "pl": [{
             "a": "action",
