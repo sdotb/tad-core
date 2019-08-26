@@ -1,23 +1,23 @@
 <?php
-namespace sdotbertoli\TAD;
+namespace TADCore;
 
 /**
  * Single TAD unit class
  */
 class TAD
 {
-    private $i = '';
-    private $t = '';
     private $a = '';
     private $d = [];
-    private $key_missing = [];
-    private $msg_missing = '';
+    private $is_health = true;
     private $key_empty = [];
+    private $key_missing = [];
+    private $key_wrong = [];
+    private $i = '';
     private $msg_empty = '';
-    public $key_wrong = [];
+    private $msg_missing = '';
     private $msg_wrong = '';
-    private $health = true;
     private $parsing_status = 'toparse';    //  Can be 'toparse','parsing','parsed'
+    private $t = '';
 
     public function __construct(array $data = [])
     {
@@ -38,83 +38,70 @@ class TAD
             $data['d'] = "missing argument data";
         }
 
-        $this->set_i((string)$data['i']);
-        $this->set_t((string)$data['t']);
-        $this->set_a((string)$data['a']);
-        $this->set_d((array)$data['d']);
+        $this->setI((string)$data['i']);
+        $this->setT((string)$data['t']);
+        $this->setA((string)$data['a']);
+        $this->setD((array)$data['d']);
 
-        $this->health_check();
+        $this->healthCheck();
 
     }
 
-    /**
-     * Fill TAD, not in use at the moment, filled in construct
-     */
-    private function set($data): bool
+    public function healthCheck(): bool
     {
-        if (empty($data)) return false;
-        $this->set_i($data['i']);
-        $this->set_t($data['t']);
-        $this->set_a($data['a']);
-        if (!is_array($data['d'])) $data['d'] = (array)$data['d'];
-        $this->set_d($data['d']);
-        return true;
-    }
-
-    public function health_check(): bool
-    {
-        $this->health = true;
+        $this->is_health = true;
         if ($this->key_missing != []) {
             $this->msg_missing = "missing arguments: ".implode(',',$this->key_missing);
-            $this->health = false;
+            $this->is_health = false;
         } else {
             $this->msg_missing = '';
         }
         if ($this->key_empty != []) {
             $this->msg_empty = "empty arguments: ".implode(',',$this->key_empty);
-            $this->health = false;
+            $this->is_health = false;
         } else {
             $this->msg_empty = '';
         }
         if ($this->key_wrong != []) {
             $this->msg_wrong = "wrong arguments: ".implode(',',$this->key_wrong);
-            $this->health = false;
+            $this->is_health = false;
         } else {
             $this->msg_wrong = '';
         }
-        return $this->health;
+        return $this->is_health;
     }
 
-    public function is_health(): bool
+    public function isHealth(): bool
     {
-        return $this->health_check();
+        return $this->healthCheck();
     }
 
-    public function filter(array $fields = ['t','a','d']): array
+    public function filter(array $fields = ['i','t','a','d']): array
     {
-        // TODO: Sporchissimo da rivedere
         /**
-         * Metodo per filtrare esportazione TAD,
-         * se TAD "sano" esporta solo "i" e "d"
-         * altrimenti esporta solo i campi che necessitano di correzione
+         * Filter TAD export,
+         * on "health" TAD export only "i" and "d"
+         * otherwise "i" and wrong fields
          */
-        if (!$this->health) {
-            $keep = array_merge($this->key_missing,$this->key_empty,$this->key_wrong);
+        if (!$this->is_health) {
+            $keep = array_merge(['i'],$this->key_missing,$this->key_empty,$this->key_wrong);
         } else {
-            $keep = ['d'];
+            $keep = ['d','i'];
         }
-        $response['i'] = $this->get_i();
         foreach ($fields as $field) {
             if (in_array($field,$keep)) {
                 switch ($field) {
+                    case 'i':
+                        $response['i'] = $this->getI();
+                        break;
                     case 't':
-                        $response['t'] = $this->get_t();
+                        $response['t'] = $this->getT();
                         break;
                     case 'a':
-                        $response['a'] = $this->get_a();
+                        $response['a'] = $this->getA();
                         break;
                     case 'd':
-                        $response['d'] = $this->get_d();
+                        $response['d'] = $this->getD();
                         break;
                     default:
                         # code...
@@ -125,25 +112,25 @@ class TAD
         return $response;
     }
 
-    public function set_parsing_status(string $status)
+    public function setParsingStatus(string $status)
     {
         //  Can be 'toparse','parsing','parsed'
-        //  TODO: definire array stati permessi e settare solo se status permesso
+        //  TODO: define permitted status array
         $this->parsing_status = $status;
     }
 
     /**
-     * Restituisce il TAD
+     * Get the TAD
      * 
      * @return array TAD
      */
     public function get(): array
     {
         $tad = [];
-        $tad['i'] = $this->get_i();
-        $tad['t'] = $this->get_t();
-        $tad['a'] = $this->get_a();
-        $tad['d'] = $this->get_d();
+        $tad['i'] = $this->getI();
+        $tad['t'] = $this->getT();
+        $tad['a'] = $this->getA();
+        $tad['d'] = $this->getD();
         return $tad;
     }
 
@@ -158,10 +145,10 @@ class TAD
         if (!empty($fields)) {
             # code...
         }
-        $this->set_i('');
-        $this->set_t('');
-        $this->set_a('');
-        $this->set_d([]);
+        $this->setI('');
+        $this->setT('');
+        $this->setA('');
+        $this->setD([]);
         return;
     }
 
@@ -175,18 +162,18 @@ class TAD
         if (!empty($fields)) {
             # code...
         }
-        $this->set_i('');
-        $this->set_t('');
-        $this->set_a('');
-        $this->set_d([]);
+        $this->setI('');
+        $this->setT('');
+        $this->setA('');
+        $this->setD([]);
         return;
     }
 
     //	TODO: Implementare nel metodo set_ specifico un flag per settare il messaggio come errore, missing, empty etc etc
-    //	ad esempio $this->set_a('messaggio di errore',['type'=>'wrong'])
+    //	ad esempio $this->setA('messaggio di errore',['type'=>'wrong'])
     //	In questo modo posso gestire una tipologia di contenuto del campo, ad esempio anche se è una request o response,
     //	parsing, parsed etc etc
-    public function set_i(string $i): void
+    public function setI(string $i): void
     {
         $i = trim($i);
         $this->i = $i;
@@ -197,7 +184,7 @@ class TAD
         return;
     }
 
-    public function set_t(string $t): void
+    public function setT(string $t): void
     {
         $t = trim($t);
         $this->t = $t;
@@ -208,7 +195,7 @@ class TAD
         return;
     }
 
-    public function set_a(string $a): void
+    public function setA(string $a): void
     {
         $a = trim($a);
         $this->a = $a;
@@ -219,34 +206,34 @@ class TAD
         return;
     }
 
-    public function set_d(array $d): void
+    public function setD(array $d): void
     {
         $this->d = $d;
         return;
     }
 
-    public function set_d_from_old_mood(array $mood): void
+    public function setDFromMood(array $mood): void
     {
         $this->d = $mood['d'];
         return;
     }
 
-    public function get_i(): string
+    public function getI(): string
     {
         return $this->i;
     }
 
-    public function get_t(): string
+    public function getT(): string
     {
         return $this->t;
     }
 
-    public function get_a(): string
+    public function getA(): string
     {
         return $this->a;
     }
 
-    public function get_d(): array
+    public function getD(): array
     {
         return $this->d;
     }

@@ -1,8 +1,8 @@
 <?php
-namespace sdotbertoli\TAD;
+namespace TADCore;
 
-use sdotbertoli\Utils\Utils;
-use sdotbertoli\TAD\TAD;
+use TADCore\TAD;
+use Utils\Utils;
 
 /**
  * Classe TADCollection
@@ -10,71 +10,71 @@ use sdotbertoli\TAD\TAD;
 class TADCollection implements \Iterator, \ArrayAccess, \Countable
 {
     protected $first = null;    // WARNING! Keep this always first, supportReset
+    private $id = '';
     private $position = 0;      // Iterator
     private $tads = [];         // Elements container
-    private $id = '';
 
     function __construct($id = '')
     {
-        if (empty($id)) $id = Utils::mtRandStr(10);
-        $this->set_id($id);
+        if (empty($id)) $id = Utils::randStr(10);
+        $this->setId($id);
         $this->position = 0;    // Init Iterator
     }
 
-    private function set_id(string $id): void
+    private function setId(string $id): void
     {
         $this->id = $id;
     }
 
-    public function get_id(): string
+    public function getId(): string
     {
         return $this->id;
     }
 
-    public function get_size(): int
+    public function getSize(): int
     {
         return count($this->tads);
     }
 
-    public function set_collection(array $tads): int
+    public function setCollection(array $tads): int
     {
         foreach ($tads as $tad) {
-            $this->set_push(new TAD($tad));
+            $this->setPush(new TAD($tad));
         }
-        return $this->get_size();
+        return $this->getSize();
     }
 
-    public function get_collection(): array
+    public function getCollection(): array
     {
         return $this->tads;
     }
 
-    public function set_push(TAD $tad): int
+    public function setPush(TAD $tad): int
     {
         return array_push($this->tads,$tad);
     }
 
-    public function set_unshift(TAD $tad): int
+    public function setUnshift(TAD $tad): int
     {
         return array_unshift($this->tads,$tad);
     }
 
-    public function get_pop(): TAD
+    public function getPop(): TAD
     {
         return array_pop($this->tads);
     }
 
-    public function get_shift(): TAD
+    public function getShift(): TAD
     {
         return array_shift($this->tads);
     }
 
-    public function get_first(): TAD
+    public function getFirst(): TAD
     {
         return reset($this->tads);
     }
 
-    public function get_last(): TAD
+    public function getLast(): TAD
     {
         return end($this->tads);
     }
@@ -82,7 +82,8 @@ class TADCollection implements \Iterator, \ArrayAccess, \Countable
     /**
      * ArrayAccess Methods
      */
-    public function offsetSet($offset, $value) {
+    public function offsetSet($offset, $value): void
+    {
         if (is_null($offset)) {
             $this->tads[] = $value;
         } else {
@@ -91,50 +92,59 @@ class TADCollection implements \Iterator, \ArrayAccess, \Countable
         $this->supportReset();
     }
 
-    public function offsetExists($offset) {
+    public function offsetExists($offset): bool
+    {
         return isset($this->tads[$offset]);
     }
 
-    public function offsetUnset($offset) {
+    public function offsetUnset($offset): void
+    {
         unset($this->tads[$offset]);
         $this->supportReset();
     }
 
-    public function offsetGet($offset) {
+    public function offsetGet($offset): ?TAD
+    {
         return isset($this->tads[$offset]) ? $this->tads[$offset] : null;
     }
 
-    private function supportReset() {
+    private function supportReset(): void
+    {
         $this->first = reset($this->tads); //Support reset().
     }
 
     /**
      * Iterator Methods
      */
-    public function rewind() {
+    public function rewind(): void
+    {
         $this->position = 0;
     }
 
-    public function current() {
+    public function current(): TAD
+    {
         return $this->tads[$this->position];
     }
 
-    public function key() {
+    public function key(): int
+    {
         return $this->position;
     }
 
-    public function next() {
+    public function next(): void
+    {
         ++$this->position;
     }
 
-    public function valid() {
+    public function valid(): bool
+    {
         return isset($this->tads[$this->position]);
     }
 
     /**
      * Countable Methods
      */
-    public function count() 
+    public function count(): int
     { 
         return count($this->tads); 
     } 

@@ -9,14 +9,13 @@
             "email": "s.bertoli@ictec.it"
         }
     ],
-    "minimum-stability": "dev",
     "require": {
-        "php": ">=7.1.0",
-        "sdotbertoli/utils": "1.0.*"
+        "php": "^7.1",
+        "sdotbertoli/utils": "^1.0"
     },
     "autoload": {
         "psr-4": {
-            "sdotbertoli\\TAD\\": "src/TAD"
+            "TADCore\\": "src/TADCore"
         }
     }
 }
