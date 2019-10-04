@@ -1,7 +1,7 @@
 <?php
-namespace TADCore;
+namespace SdotB\TADCore;
 
-use TADCore\TADCollection;
+use SdotB\TADCore\TADCollection;
 
 /**
  * Classe TADManager, si occupa di parsare stringhe in ingresso e convertirle in una TADCollection
@@ -68,7 +68,7 @@ class TADManager
     {
         $export = [];
         foreach ($this->collection->getCollection() as $key => $value) {
-            $export[] = $value->filter();
+            $export[] = $value->export();
         }
         return $export;
     }

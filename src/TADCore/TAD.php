@@ -1,72 +1,65 @@
 <?php
-namespace TADCore;
+declare(strict_types=1);
+namespace SdotB\TADCore;
 
 /**
  * Single TAD unit class
  */
 class TAD
 {
-    private $a = '';
-    private $d = [];
-    private $is_health = true;
+    private $is_health = false;
     private $key_empty = [];
     private $key_missing = [];
     private $key_wrong = [];
-    private $i = '';
-    private $msg_empty = '';
-    private $msg_missing = '';
-    private $msg_wrong = '';
+    private $key_wrong_type = [];
     private $parsing_status = 'toparse';    //  Can be 'toparse','parsing','parsed'
-    private $t = '';
+    private $req_a;
+    private $req_d;
+    private $req_i;
+    private $req_t;
+    private $res_a;
+    private $res_d;
+    private $res_i;
+    private $res_t;
 
     public function __construct(array $data = [])
     {
-        if (!isset($data['i'])) {
-            $this->key_missing[] = 'i';
-            $data['i'] = "missing argument id";
-        }
-        if (!isset($data['t'])) {
-            $this->key_missing[] = 't';
-            $data['t'] = "missing argument type";
-        }
-        if (!isset($data['a'])) {
-            $this->key_missing[] = 'a';
-            $data['a'] = "missing argument action";
-        }
-        if (!isset($data['d'])) {
-            $this->key_missing[] = 'd';
-            $data['d'] = "missing argument data";
-        }
-
-        $this->setI((string)$data['i']);
-        $this->setT((string)$data['t']);
-        $this->setA((string)$data['a']);
-        $this->setD((array)$data['d']);
-
-        $this->healthCheck();
+        $this->load($data);
+        
+        // Temp to simulate working
+        //$this->work();
 
     }
 
-    public function healthCheck(): bool
+    public function load(array $data): void
     {
-        $this->is_health = true;
-        if ($this->key_missing != []) {
-            $this->msg_missing = "missing arguments: ".implode(',',$this->key_missing);
-            $this->is_health = false;
-        } else {
-            $this->msg_missing = '';
+        if (isset($data['i'])) {
+            $this->setI($data['i']);
         }
-        if ($this->key_empty != []) {
-            $this->msg_empty = "empty arguments: ".implode(',',$this->key_empty);
-            $this->is_health = false;
+        if (isset($data['t'])) {
+            $this->setT($data['t']);
         } else {
-            $this->msg_empty = '';
+            $this->key_missing[] = 't';
+            $this->res_t = "missing argument type";
         }
-        if ($this->key_wrong != []) {
-            $this->msg_wrong = "wrong arguments: ".implode(',',$this->key_wrong);
-            $this->is_health = false;
+        if (isset($data['a'])) {
+            $this->setA($data['a']);
         } else {
-            $this->msg_wrong = '';
+            $this->key_missing[] = 'a';
+            $this->res_a = "missing argument action";
+        }
+        if (isset($data['d'])) {
+            $this->setD($data['d']);
+        }
+        $this->healthCheck();
+    }
+
+    protected function healthCheck(): bool
+    {
+        $this->is_health = false;
+
+        if ($this->key_missing == [] and $this->key_empty == [] and $this->key_wrong_type == [] and $this->key_wrong == []) {
+            $this->is_health = true;
         }
         return $this->is_health;
     }
@@ -76,32 +69,39 @@ class TAD
         return $this->healthCheck();
     }
 
+    public function export(): array
+    {
+        return $this->filter();
+    }
+
     public function filter(array $fields = ['i','t','a','d']): array
     {
         /**
          * Filter TAD export,
-         * on "health" TAD export only "i" and "d"
-         * otherwise "i" and wrong fields
+         * on "health" TAD export only "i" and "d" if present in $fields argument
+         * otherwise "i" if evaluated and any wrong fields matching $fields argument
          */
-        if (!$this->is_health) {
-            $keep = array_merge(['i'],$this->key_missing,$this->key_empty,$this->key_wrong);
-        } else {
+        $response = [];
+        $this->isHealth();
+        if ($this->is_health) {
             $keep = ['d','i'];
+        } else {
+            $keep = array_merge(['i'],$this->key_missing,$this->key_empty,$this->key_wrong_type,$this->key_wrong);
         }
         foreach ($fields as $field) {
             if (in_array($field,$keep)) {
                 switch ($field) {
                     case 'i':
-                        $response['i'] = $this->getI();
+                        if (!empty($this->getI())) $response['i'] = $this->getI();
                         break;
                     case 't':
-                        $response['t'] = $this->getT();
+                        if (!empty($this->getT())) $response['t'] = $this->getT();
                         break;
                     case 'a':
-                        $response['a'] = $this->getA();
+                        if (!empty($this->getA())) $response['a'] = $this->getA();
                         break;
                     case 'd':
-                        $response['d'] = $this->getD();
+                        if (!empty($this->getD())) $response['d'] = $this->getD();
                         break;
                     default:
                         # code...
@@ -127,114 +127,144 @@ class TAD
     public function get(): array
     {
         $tad = [];
-        $tad['i'] = $this->getI();
-        $tad['t'] = $this->getT();
-        $tad['a'] = $this->getA();
-        $tad['d'] = $this->getD();
+        if (!empty($this->getI())) $tad['i'] = $this->getI();
+        if (!empty($this->getT())) $tad['t'] = $this->getT();
+        if (!empty($this->getA())) $tad['a'] = $this->getA();
+        if (!empty($this->getD())) $tad['d'] = $this->getD();
         return $tad;
     }
 
-    /**
-     * Svuota campi del TAD
-     * 
-     * @param array $fields TODO: definire che campi svuotare, lascia invariato il resto
-     * @return void
-     */
-    public function empty(array $fields = []): void
+    public function getI(): ?string
     {
-        if (!empty($fields)) {
-            # code...
-        }
-        $this->setI('');
-        $this->setT('');
-        $this->setA('');
-        $this->setD([]);
-        return;
+        return $this->res_i;
+    }
+    
+    public function getTReq(): ?string
+    {
+        return $this->req_t;
     }
 
-    /**
-     * Mantiene campi del TAD
-     * 
-     * @param array $fields TODO: definire che campi mantenere, svuota il resto
-     */
-    public function keep(array $fields = []): void
+    public function getT(): ?string
     {
-        if (!empty($fields)) {
-            # code...
-        }
-        $this->setI('');
-        $this->setT('');
-        $this->setA('');
-        $this->setD([]);
-        return;
+        return $this->res_t;
+    }
+    
+    public function getAReq(): ?string
+    {
+        return $this->req_a;
     }
 
-    //	TODO: Implementare nel metodo set_ specifico un flag per settare il messaggio come errore, missing, empty etc etc
-    //	ad esempio $this->setA('messaggio di errore',['type'=>'wrong'])
-    //	In questo modo posso gestire una tipologia di contenuto del campo, ad esempio anche se è una request o response,
-    //	parsing, parsed etc etc
-    public function setI(string $i): void
+    public function getA(): ?string
     {
-        $i = trim($i);
-        $this->i = $i;
-        if (empty($i)) {
-            $this->i = "cannot be empty";
-            $this->key_empty[] = 'i';
-        }
-        return;
+        return $this->res_a;
+    }
+    
+    public function getDReq(): ?array
+    {
+        return $this->req_d;
     }
 
-    public function setT(string $t): void
+    public function getD(): ?array
     {
-        $t = trim($t);
-        $this->t = $t;
-        if (empty($t)) {
-            $this->t = "cannot be empty";
-            $this->key_empty[] = 't';
-        }
-        return;
+        return $this->res_d;
     }
 
-    public function setA(string $a): void
+    public function setA($a): void
+    {
+        try {
+            $this->setAStrict($a);
+        } catch (\TypeError $te) {
+            $this->key_wrong_type[] = 'a';
+            $this->res_a = $te->getMessage();
+        } finally {
+            $this->healthCheck();
+        }
+    }
+
+    protected function setAStrict(string $a): void
     {
         $a = trim($a);
-        $this->a = $a;
-        if (empty($a)) {
-            $this->a = "cannot be empty";
+        $this->req_a = $a;
+        if (empty($this->req_a)) {
             $this->key_empty[] = 'a';
+            $this->res_a = "cannot be empty";
         }
-        return;
     }
 
-    public function setD(array $d): void
+    public function setD($d): void
     {
-        $this->d = $d;
-        return;
+        try {
+            $this->setDStrict($d);
+        } catch (\TypeError $te) {
+            $this->key_wrong_type[] = 'd';
+            $this->res_d = $te->getMessage();
+        } finally {
+            $this->healthCheck();
+        }
+    }
+    
+    protected function setDStrict(array $d): void
+    {
+        $this->req_d = $d;
     }
 
-    public function setDFromMood(array $mood): void
+    public function setI($i): void
     {
-        $this->d = $mood['d'];
-        return;
+        try {
+            $this->setIStrict($i);
+        } catch (\TypeError $te) {
+            $this->key_wrong_type[] = 'i';
+            $this->res_i = $te->getMessage();
+        } finally {
+            $this->healthCheck();
+        }
     }
 
-    public function getI(): string
+    protected function setIStrict(string $i): void
     {
-        return $this->i;
+        $i = trim($i);
+        $this->req_i = $i;
+        $this->res_i = $this->req_i;
     }
 
-    public function getT(): string
+    public function setT($t): void
     {
-        return $this->t;
+        try {
+            $this->setTStrict($t);
+        } catch (\TypeError $te) {
+            $this->key_wrong_type[] = 't';
+            $this->res_t = $te->getMessage();
+        } finally {
+            $this->healthCheck();
+        }
+    }
+        
+    protected function setTStrict(string $t): void
+    {
+        $t = trim($t);
+        $this->req_t = $t;
+        if (empty($this->req_t)) {
+            $this->key_empty[] = 't';
+            $this->res_t = "cannot be empty";
+        }
     }
 
-    public function getA(): string
+    public function setAWrong(string $msg = 'wrong action or not permitted'): void
     {
-        return $this->a;
+        $this->key_wrong[] = 'a';
+        $this->res_a = $msg;
+        $this->healthCheck();
     }
 
-    public function getD(): array
+    public function setTWrong(string $msg = 'wrong type or not permitted'): void
     {
-        return $this->d;
+        $this->key_wrong[] = 't';
+        $this->res_t = $msg;
+        $this->healthCheck();
+    }
+
+    public function work($d): void
+    {   
+        $this->res_d[] = ["data" => $d, "status" => "OK"];
     }
 }

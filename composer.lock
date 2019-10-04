@@ -4,29 +4,29 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "da0bda538a210d7bf1dcd1fd24fdfefc",
+    "content-hash": "84b8b1d0e8238b8b9fc13849c1c661a0",
     "packages": [
         {
-            "name": "sdotbertoli/utils",
-            "version": "v1.0.0",
+            "name": "sdotb/utils",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/sdotbertoli/utils.git",
-                "reference": "5725de4e34ca84a5069ab4cb4e70ab883c2c322b"
+                "url": "https://github.com/sdotb/utils.git",
+                "reference": "c5387b7137b938b103cbba52c77531df8fca00a4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sdotbertoli/utils/zipball/5725de4e34ca84a5069ab4cb4e70ab883c2c322b",
-                "reference": "5725de4e34ca84a5069ab4cb4e70ab883c2c322b",
+                "url": "https://api.github.com/repos/sdotb/utils/zipball/c5387b7137b938b103cbba52c77531df8fca00a4",
+                "reference": "c5387b7137b938b103cbba52c77531df8fca00a4",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.1"
+                "php": "^7.3"
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Utils\\": "src/Utils"
+                    "SdotB\\Utils\\": "src/Utils"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -40,7 +40,7 @@
                 }
             ],
             "description": "Utils for projects",
-            "time": "2019-08-26T11:31:32+00:00"
+            "time": "2019-10-04T21:27:42+00:00"
         }
     ],
     "packages-dev": [],
@@ -50,7 +50,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.1"
+        "php": "^7.3"
     },
     "platform-dev": []
 }

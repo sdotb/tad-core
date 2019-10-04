@@ -1,8 +1,8 @@
 <?php
-namespace TADCore;
+namespace SdotB\TADCore;
 
-use TADCore\TAD;
-use Utils\Utils;
+use SdotB\TADCore\TAD;
+use SdotB\Utils\Utils;
 
 /**
  * Classe TADCollection
