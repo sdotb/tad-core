@@ -42,9 +42,9 @@ il tadmanager.worker quando lavora un tad:
         res d non viene valorizzato (unset)
     se workable
         imposta res i = req i
-        verifica type e se errore (non previsto / non permesso) imposta res t e workable false?
-        verifica action e se errore (non previsto / non permesso) imposta res a e workable false?
-        lo lavora (tramite mood o altro) e imposta res d
+        verifica type e se errore (non previsto / non permesso) imposta res t e workable false
+        verifica action e se errore (non previsto / non permesso) imposta res a e workable false
+        lo lavora (tramite worker: mood o altro) e imposta res d
 
 in fase di istanza, ovvero quando il tadmanager istanzia un nuovo tad da pushare nella tadcollection il tad si popola con un array [ itad ]
 oppure possono essere richiamati i metodi specifici delle singole proprietà.
@@ -56,3 +56,10 @@ miotad->setA(a)
 miotad->setD(d)
 
 i metodi set e construct alla fine chiameranno un metodo checkWorkable che solo se tutto è in ordine imposta workable su true
+
+
+TODO:
+- check and parse correct array input in TAD Manager types and actions. Sanitize
+- better control of throwable in TADManager::runWorker, this catching custom exception/error thrown by worker
+- implement TADManager formatter to export collection as php array, php object, php serialized or json string
+- implement HMAC check

@@ -16,6 +16,9 @@ class TADManager
     const PL_TYPE_IN_ARRAY = 'json';
     /* define behaviuor in case of wrong input tipe passed, can be 'error' or 'default' */
     const WRONG_INPUT_TYPE_BEHAVIOUR = 'error';
+
+    private $ay_actions = [];
+    private $ay_types = [];
     private $collection;
     private $data_store = [];
     private $inputdata_array = [];
@@ -59,9 +62,28 @@ class TADManager
             }
         }
         
+        if (!empty($options['types']) && is_array($options['types']) ) {
+            $this->types($options['types']);
+        }
+        if (!empty($options['actions']) && is_array($options['actions'])) {
+            $this->actions($options['actions']);
+        }
+
         if (isset($options['parse']) && ($options['parse'] === true)) {
             $this->parseInput($this->input_type);
         }
+    }
+
+    public function actions(array $actions): array
+    {
+        $this->ay_actions = array_merge($this->ay_actions, $actions);
+        return $this->ay_actions;
+    }
+
+    public function types(array $types): array
+    {
+        $this->ay_types = array_merge($this->ay_types, $types);
+        return $this->ay_types;
     }
 
     public function exportCollection(): array
@@ -215,5 +237,52 @@ class TADManager
     private function setTk(string $tk): void
     {
         $this->tk = trim($tk);
+    }
+
+    /**
+     * runWorker method:
+     * receive a TADWorker instance by argument,
+     * rotate every TAD of the collection,
+     * after checking health, type and action inject information in TADWorker instance
+     * set TAD response data "D" parsed by TADWorker or errors
+     */
+    public function runWorker(abTADWorker $worker)
+    {
+        foreach ($this->collection as $key => $tad) {
+            $tad->setParsingStatus('parsing');
+            if($tad->isHealth() === true) {
+                if(isset($this->ay_types[$tad->requestedType()])){
+                    if (isset($this->ay_actions[$tad->requestedAction()])) {
+                        try {
+                            //  Here set worker properties related to single TAD
+                            $worker->setAction($this->ay_actions[$tad->requestedAction()]);
+                            $worker->setData($tad->requestedData());
+                            $worker->setType($this->ay_types[$tad->requestedType()]);
+                            //  Fill TAD's "D" response data with data parsed by worker
+                            $tad->parsedData($worker->parseData());
+                        } catch (\Throwable $th) {
+                            switch ($th->getCode()) {
+                                case 1:
+                                    $tad->setTWrong($th->getMessage());
+                                    break;
+                                case 2:
+                                    $tad->setAWrong($th->getMessage());
+                                    break;
+                                default:
+                                    print $th->getMessage();
+                                    break;
+                            }
+                        }
+                    } else {
+                        $tad->setAWrong();
+                    }
+                } else {
+                    $tad->setTWrong();
+                }
+            } else {
+                //	Not HEALTH, nothing at the moment
+            }
+            $tad->setParsingStatus('parsed');
+        }
     }
 }

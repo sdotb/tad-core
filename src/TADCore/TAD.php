@@ -25,9 +25,7 @@ class TAD
     public function __construct(array $data = [])
     {
         $this->load($data);
-        
-        // Temp to simulate working
-        //$this->work();
+
 
     }
 
@@ -74,13 +72,13 @@ class TAD
         return $this->filter();
     }
 
+    /**
+     * Filter TAD export,
+     * on "health" TAD export only "i" and "d" if present in $fields argument
+     * otherwise "i" if evaluated and any wrong fields matching $fields argument
+     */
     public function filter(array $fields = ['i','t','a','d']): array
     {
-        /**
-         * Filter TAD export,
-         * on "health" TAD export only "i" and "d" if present in $fields argument
-         * otherwise "i" if evaluated and any wrong fields matching $fields argument
-         */
         $response = [];
         $this->isHealth();
         if ($this->is_health) {
@@ -92,16 +90,16 @@ class TAD
             if (in_array($field,$keep)) {
                 switch ($field) {
                     case 'i':
-                        if (!empty($this->getI())) $response['i'] = $this->getI();
+                        if (!empty($this->responseId())) $response['i'] = $this->responseId();
                         break;
                     case 't':
-                        if (!empty($this->getT())) $response['t'] = $this->getT();
+                        if (!empty($this->responseType())) $response['t'] = $this->responseType();
                         break;
                     case 'a':
-                        if (!empty($this->getA())) $response['a'] = $this->getA();
+                        if (!empty($this->responseAction())) $response['a'] = $this->responseAction();
                         break;
                     case 'd':
-                        if (!empty($this->getD())) $response['d'] = $this->getD();
+                        if (!empty($this->responseData())) $response['d'] = $this->responseData();
                         break;
                     default:
                         # code...
@@ -124,49 +122,54 @@ class TAD
      * 
      * @return array TAD
      */
-    public function get(): array
+    public function response(): array
     {
         $tad = [];
-        if (!empty($this->getI())) $tad['i'] = $this->getI();
-        if (!empty($this->getT())) $tad['t'] = $this->getT();
-        if (!empty($this->getA())) $tad['a'] = $this->getA();
-        if (!empty($this->getD())) $tad['d'] = $this->getD();
+        if (!empty($this->responseId())) $tad['i'] = $this->responseId();
+        if (!empty($this->responseType())) $tad['t'] = $this->responseType();
+        if (!empty($this->responseAction())) $tad['a'] = $this->responseAction();
+        if (!empty($this->responseData())) $tad['d'] = $this->responseData();
         return $tad;
     }
 
-    public function getI(): ?string
-    {
-        return $this->res_i;
-    }
-    
-    public function getTReq(): ?string
-    {
-        return $this->req_t;
-    }
-
-    public function getT(): ?string
-    {
-        return $this->res_t;
-    }
-    
-    public function getAReq(): ?string
+    public function requestedAction(): ?string
     {
         return $this->req_a;
     }
 
-    public function getA(): ?string
-    {
-        return $this->res_a;
-    }
-    
-    public function getDReq(): ?array
+    public function requestedData(): ?array
     {
         return $this->req_d;
     }
 
-    public function getD(): ?array
+    public function requestedId(): ?string
+    {
+        return $this->req_i;
+    }
+
+    public function requestedType(): ?string
+    {
+        return $this->req_t;
+    }
+
+    public function responseAction(): ?string
+    {
+        return $this->res_a;
+    }
+    
+    public function responseData(): ?array
     {
         return $this->res_d;
+    }
+
+    public function responseId(): ?string
+    {
+        return $this->res_i;
+    }
+
+    public function responseType(): ?string
+    {
+        return $this->res_t;
     }
 
     public function setA($a): void
@@ -263,8 +266,9 @@ class TAD
         $this->healthCheck();
     }
 
-    public function work($d): void
-    {   
-        $this->res_d[] = ["data" => $d, "status" => "OK"];
+    public function parsedData(array $d): void
+    {
+        $this->res_d = $d;
     }
+
 }
