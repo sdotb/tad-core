@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "sdotb/utils",
-            "version": "1.0.0",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sdotb/utils.git",
-                "reference": "c5387b7137b938b103cbba52c77531df8fca00a4"
+                "reference": "121844da1ea21b5707483fd9dd261558a95359e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sdotb/utils/zipball/c5387b7137b938b103cbba52c77531df8fca00a4",
-                "reference": "c5387b7137b938b103cbba52c77531df8fca00a4",
+                "url": "https://api.github.com/repos/sdotb/utils/zipball/121844da1ea21b5707483fd9dd261558a95359e9",
+                "reference": "121844da1ea21b5707483fd9dd261558a95359e9",
                 "shasum": ""
             },
             "require": {
@@ -40,7 +40,7 @@
                 }
             ],
             "description": "Utils for projects",
-            "time": "2019-10-04T21:27:42+00:00"
+            "time": "2019-12-02T17:44:34+00:00"
         }
     ],
     "packages-dev": [],
