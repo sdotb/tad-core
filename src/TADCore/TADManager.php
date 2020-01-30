@@ -252,10 +252,10 @@ class TADManager
             $tad->setParsingStatus('parsing');
             if($tad->isHealth() === true) {
                 if(isset($this->ay_types[$tad->requestedType()])){
-                    if (isset($this->ay_actions[$tad->requestedAction()])) {
+                    if (empty($this->ay_actions)) {
                         try {
                             //  Here set worker properties related to single TAD
-                            $worker->setAction($this->ay_actions[$tad->requestedAction()]);
+                            $worker->setAction($tad->requestedAction());
                             $worker->setData($tad->requestedData());
                             $worker->setType($this->ay_types[$tad->requestedType()]);
                             //  Fill TAD's "D" response data with data parsed by worker
@@ -274,7 +274,30 @@ class TADManager
                             }
                         }
                     } else {
-                        $tad->setAWrong();
+                        if (isset($this->ay_actions[$tad->requestedAction()])) {
+                            try {
+                                //  Here set worker properties related to single TAD
+                                $worker->setAction($this->ay_actions[$tad->requestedAction()]);
+                                $worker->setData($tad->requestedData());
+                                $worker->setType($this->ay_types[$tad->requestedType()]);
+                                //  Fill TAD's "D" response data with data parsed by worker
+                                $tad->parsedData($worker->parseData());
+                            } catch (\Throwable $th) {
+                                switch ($th->getCode()) {
+                                    case 1:
+                                        $tad->setTWrong($th->getMessage());
+                                        break;
+                                    case 2:
+                                        $tad->setAWrong($th->getMessage());
+                                        break;
+                                    default:
+                                        print $th->getMessage();
+                                        break;
+                                }
+                            }
+                        } else {
+                            $tad->setAWrong();
+                        }
                     }
                 } else {
                     $tad->setTWrong();
