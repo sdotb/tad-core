@@ -3,7 +3,9 @@ declare(strict_types=1);
 namespace SdotB\TADCore;
 
 /**
- * Single TAD unit class
+ * TAD Entity.
+ * 
+ * The TAD entity have all mothods to load, parse, validate, export data
  */
 class TAD
 {
@@ -25,8 +27,6 @@ class TAD
     public function __construct(array $data = [])
     {
         $this->load($data);
-
-
     }
 
     public function load(array $data): void
@@ -59,6 +59,7 @@ class TAD
         if ($this->key_missing == [] and $this->key_empty == [] and $this->key_wrong_type == [] and $this->key_wrong == []) {
             $this->is_health = true;
         }
+        
         return $this->is_health;
     }
 

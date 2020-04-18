@@ -1,1 +1,12 @@
-/vendor/
+# OS wide
+.DS_Store
+Thumbs.db
+
+# VS Code
+/.vscode
+
+# Composer
+/vendor
+
+# PHPUnit
+.phpunit.result.cache

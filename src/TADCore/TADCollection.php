@@ -1,16 +1,16 @@
 <?php
 namespace SdotB\TADCore;
 
-use SdotB\TADCore\TAD;
 use SdotB\Utils\Utils;
 
 /**
- * Classe TADCollection
+ * Classe TADCollection.
  */
 class TADCollection implements \Iterator, \ArrayAccess, \Countable
 {
     protected $first = null;    // WARNING! Keep this always first, supportReset
-    private $id = '';
+    private $id = '';           // Random guid if not passed into
+    private $tk = '';           // If wanted to bind a token fo operations to all elements
     private $position = 0;      // Iterator
     private $tads = [];         // Elements container
 
@@ -80,7 +80,7 @@ class TADCollection implements \Iterator, \ArrayAccess, \Countable
     }
 
     /**
-     * ArrayAccess Methods
+     * ArrayAccess Methods.
      */
     public function offsetSet($offset, $value): void
     {
@@ -114,7 +114,7 @@ class TADCollection implements \Iterator, \ArrayAccess, \Countable
     }
 
     /**
-     * Iterator Methods
+     * Iterator Methods.
      */
     public function rewind(): void
     {
@@ -142,7 +142,7 @@ class TADCollection implements \Iterator, \ArrayAccess, \Countable
     }
 
     /**
-     * Countable Methods
+     * Countable Methods.
      */
     public function count(): int
     { 
