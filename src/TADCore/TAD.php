@@ -201,7 +201,7 @@ class TAD
             $this->setDStrict($d);
         } catch (\TypeError $te) {
             $this->key_wrong_type[] = 'd';
-            $this->res_d = $te->getMessage();
+            $this->res_d = [$te->getMessage()];
         } finally {
             $this->healthCheck();
         }

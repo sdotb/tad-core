@@ -61,5 +61,6 @@ i metodi set e construct alla fine chiameranno un metodo checkWorkable che solo 
 
 - TADManager: check and parse correct array input (types and actions). Sanitize
 - change names to ay_actions and ay_types and also methods names to setTypesResolver and setActionsResolver accordingly with abTADWorker
+- TAD: generate random i if not passed, TADCollection: generate random id
 - implement TADManager formatter to export collection as php array, php object, php serialized or json string
 - implement HMAC check

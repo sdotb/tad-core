@@ -20,35 +20,44 @@ $json_example_data = '{
         },{
             "key": "value2"
         }],
-        "i": "1234",
+        "i": "1",
         "t": "type1"
     }, {
         "a": "action2",
         "d": [{
             "key": "value"
         }],
-        "i": "5678",
+        "i": "2",
+        "t": "type2"
+    }, {
+        "a": "action4",
+        "d": "",
+        "i": "3",
+        "t": "type2"
+    }, {
+        "a": "action4",
+        "i": "4",
         "t": "type2"
     }, {
         "a": "action2",
         "d": [{
             "key": "value"
         }],
-        "i": "9234",
+        "i": "5",
         "t": "type2"
     }, {
         "a": "action",
         "d": [{
             "key": "value"
         }],
-        "i": "6464",
+        "i": "6",
         "t": "type1"
     }, {
         "a": "ac",
         "d1": [{
             "key": "value"
         }],
-        "i1": "6464",
+        "i1": "7",
         "t": "type1"
     }],
     "hh": ""

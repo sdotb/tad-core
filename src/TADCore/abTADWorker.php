@@ -49,9 +49,9 @@ abstract class abTADWorker implements iTADWorker
         return $this;
     }
 
-    public function setData(array $data): iTADWorker
+    public function setData(?array $data): iTADWorker
     {
-        $this->data = $data;
+        $this->data = $data ?? [];
 
         return $this;
     }

@@ -90,7 +90,8 @@ class TADManager
     {
         $export = [];
         foreach ($this->collection->getCollection() as $key => $value) {
-            $export[] = $value->export();
+            $item = $value->export();
+            $export[] = empty($item) ? @json_decode('{}') : $item;
         }
         return $export;
     }
