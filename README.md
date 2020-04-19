@@ -1,8 +1,9 @@
 # tad-core
+
 TAD backend implementation
 
+## Documentation
 
-# Documentation
 TAD deve avere una proprietà che definisce se è lavorabile o meno e un metodo che controlla questa proprietà (set o get in fase di parsing)
 
 Quando lo istanzio se ho tutti i dati che mi aspetto setto workable true
@@ -17,20 +18,19 @@ t deve essere valorizzato: una stringa non vuota, a deve essere valorizzato: una
 
 funzione che controlla se req t e req a sono valorizzate, se si è workable, altrimenti no
 
+### TAD Structure
 
-
-TAD
 - workable
 - req
- - i
- - t
- - a
- - d
+  - i
+  - t
+  - a
+  - d
 - res
- - i
- - t
- - a
- - d
+  - i
+  - t
+  - a
+  - d
 
 il tadmanager.worker quando lavora un tad:
 
@@ -57,9 +57,9 @@ miotad->setD(d)
 
 i metodi set e construct alla fine chiameranno un metodo checkWorkable che solo se tutto è in ordine imposta workable su true
 
+### TODO
 
-TODO:
-- check and parse correct array input in TAD Manager types and actions. Sanitize
-- better control of throwable in TADManager::runWorker, this catching custom exception/error thrown by worker
+- TADManager: check and parse correct array input (types and actions). Sanitize
+- change names to ay_actions and ay_types and also methods names to setTypesResolver and setActionsResolver accordingly with abTADWorker
 - implement TADManager formatter to export collection as php array, php object, php serialized or json string
 - implement HMAC check
