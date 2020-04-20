@@ -4,24 +4,24 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d824149cb656b7826ec4c52d07c90187",
+    "content-hash": "5ba4f4b809f49e45ced5d792ea3abe0b",
     "packages": [
         {
             "name": "sdotb/utils",
-            "version": "1.1.1",
+            "version": "1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sdotb/utils.git",
-                "reference": "9cd84a95a375082c83d2a70250281941d485955e"
+                "reference": "f0aae423f4c430c91b5b5f47ffdd64953ae2d17a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sdotb/utils/zipball/9cd84a95a375082c83d2a70250281941d485955e",
-                "reference": "9cd84a95a375082c83d2a70250281941d485955e",
+                "url": "https://api.github.com/repos/sdotb/utils/zipball/f0aae423f4c430c91b5b5f47ffdd64953ae2d17a",
+                "reference": "f0aae423f4c430c91b5b5f47ffdd64953ae2d17a",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.3"
+                "php": "^7.4"
             },
             "require-dev": {
                 "phpunit/phpunit": "^8.5"
@@ -29,7 +29,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "SdotB\\Utils\\": "src/Utils"
+                    "SdotB\\Utils\\": "src/utils"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -43,7 +43,7 @@
                 }
             ],
             "description": "Utils for projects",
-            "time": "2020-04-18T15:26:52+00:00"
+            "time": "2020-04-20T23:34:14+00:00"
         }
     ],
     "packages-dev": [],

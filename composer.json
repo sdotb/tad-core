@@ -1,6 +1,6 @@
 {
     "name": "sdotb/tad-core",
-    "description": "TAD Backend implementation",
+    "description": "TAD backend implementation",
     "type": "library",
     "license": "AGPL-3.0-or-later",
     "authors": [
@@ -11,11 +11,11 @@
     ],
     "require": {
         "php": "^7.4",
-        "sdotb/utils": "^1.0"
+        "sdotb/utils": "^1.1"
     },
     "autoload": {
         "psr-4": {
-            "SdotB\\TADCore\\": "src/TADCore"
+            "SdotB\\TADCore\\": "src/tad-core"
         }
     }
 }
